@@ -1,22 +1,28 @@
 package Ejercicios;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.cycle.CycleDetector;
 import org.jgrapht.alg.shortestpath.AllDirectedPaths;
+import org.jgrapht.traverse.DepthFirstIterator;
 import org.jgrapht.traverse.TopologicalOrderIterator;
 
 import Tipos.RelacionTareas;
 import Tipos.Tarea;
 import us.lsi.colors.GraphColors;
 import us.lsi.colors.GraphColors.Color;
+import us.lsi.common.List2;
 import us.lsi.common.Set2;
 
 public class Ejercicio3 {
@@ -33,8 +39,8 @@ public class Ejercicio3 {
 		return res;
 	}
 
-	public static Set<Tarea> ejercicio3B(Graph<Tarea, RelacionTareas> g, Tarea tareaActual,
-			Set<Tarea> visitados, Set<Tarea> tareasPrevias, String fichero) {
+	public static Set<Tarea> ejercicio3B(Graph<Tarea, RelacionTareas> g, Tarea tareaActual, Set<Tarea> visitados,
+			Set<Tarea> tareasPrevias, String fichero) {
 		if (visitados.contains(tareaActual)) {
 			return tareasPrevias;
 		}
@@ -45,9 +51,50 @@ public class Ejercicio3 {
 			tareasPrevias.add(tareaPrevia);
 			ejercicio3B(g, tareaPrevia, visitados, tareasPrevias, fichero);
 		}
-		
-		
+
 		return tareasPrevias;
+	}
+
+	public static List<Tarea> ejercicio3C(Graph<Tarea, RelacionTareas> g, String fichero) {
+
+		//Lista de nodos sin aristas entrantes
+		List<Tarea> tareasVacias = g.vertexSet().stream().filter(v -> g.incomingEdgesOf(v).isEmpty())
+				.collect(Collectors.toList());
+		
+		List<Tarea> res = new ArrayList<>();
+		
+		// Mapa auxiliar para almacenar la tarea y la cantidad de sub-tareas
+		Map<Tarea, Integer> aux = new HashMap<>();
+
+		//Para cada tarea vacía
+		for (Tarea t : tareasVacias) {
+
+			// Iterador de búsqueda en profundidad desde la tarea actual
+			DepthFirstIterator<Tarea, RelacionTareas> recProf = new DepthFirstIterator<>(g, t);
+			
+			List<Tarea> subTareas = List2.empty();
+			
+			// Para cada tarea en la búsqueda en profundidad, agregarla a la lista de sub-tareas
+			recProf.forEachRemaining((tarea) -> subTareas.add(tarea));
+
+			// Almacenar en el mapa auxiliar la tarea actual y el tamaño de la lista de sub-tareas
+			aux.put(t, subTareas.size());
+		}
+
+		// Encontrar el valor máximo de sub-tareas
+		Integer maxValue = aux.values().stream().max((n1, n2) -> n1.compareTo(n2)).orElse(0);
+
+		 // Filtrar las tareas con el máximo valor de sub-tareas y agregarlas a la lista de resultados
+		res = aux.entrySet().stream().filter(e -> e.getValue().equals(maxValue)).map(Entry::getKey).toList();
+
+		//Dibujar grafo
+		GraphColors.toDot(g, carpetaResultados + fichero + "ApartadoC.gv", v -> v.nombre(), e -> "Relacion-" + e.id(),
+				v -> GraphColors.colorIf(Color.magenta, aux.entrySet().stream()
+						.filter(e -> e.getValue().equals(maxValue)).map(Entry::getKey).toList().contains(v)),
+				e -> GraphColors.color(Color.black));
+
+		return res;
+
 	}
 
 }

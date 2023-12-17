@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.jgrapht.Graph;
 
-import Tipos.Atraccion;
 import Tipos.RelacionTareas;
 import Tipos.Tarea;
 import us.lsi.colors.GraphColors;
@@ -56,6 +55,9 @@ public class Test3 {
 		System.out.println("\n============================================================\n");
 		System.out.println("\nApartado B\n");
 		testEjercicio3B();
+		System.out.println("\n============================================================\n");
+		System.out.println("\nApartado C\n");
+		testEjercicio3C();
 
 	}
 
@@ -81,7 +83,7 @@ public class Test3 {
 
 		Tarea tareaElegida_1 = g1.vertexSet().stream().filter(v -> v.nombre().equals("Tarea5")).findFirst().get();
 		Set<Tarea> res1 = Ejercicios.Ejercicio3.ejercicio3B(g1, tareaElegida_1, Set2.empty(), Set2.empty(), fichero3_1);
-		
+
 		System.out.println("Tareas que deben realizarse previamente a " + tareaElegida_1.nombre());
 		System.out.println(res1);
 
@@ -112,13 +114,10 @@ public class Test3 {
 
 		System.out.println("Tareas que deben realizarse previamente a " + tareaElegida_3.nombre());
 		System.out.println(res3);
-		
+
 		GraphColors.toDot(g3, carpetaResultados + fichero3_3 + "ApartadoB.gv", v -> v.nombre(),
 				e -> "Relacion-" + e.id(), v -> GraphColors.color(getColorB(tareaElegida_3, res3, v)),
 				e -> GraphColors.color(Color.black));
-
-		
-		
 
 	}
 
@@ -130,6 +129,22 @@ public class Test3 {
 		if (z.nombre().equals(tareaElegida.nombre()))
 			c = Color.magenta;
 		return c;
+
+	}
+
+	private static void testEjercicio3C() {
+
+		System.out.println("Fichero " + fichero3_1);
+
+		System.out.println("Tareas mas dependientes: " + Ejercicios.Ejercicio3.ejercicio3C(g1, fichero3_1));
+
+		System.out.println("Fichero " + fichero3_2);
+
+		System.out.println("Tareas mas dependientes: " + Ejercicios.Ejercicio3.ejercicio3C(g2, fichero3_2));
+
+		System.out.println("Fichero " + fichero3_3);
+
+		System.out.println("Tareas mas dependientes: " + Ejercicios.Ejercicio3.ejercicio3C(g3, fichero3_3));
 
 	}
 
