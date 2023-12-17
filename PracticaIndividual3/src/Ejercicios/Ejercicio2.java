@@ -1,6 +1,5 @@
 package Ejercicios;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -20,6 +19,8 @@ import us.lsi.common.List2;
 public class Ejercicio2 {
 
 	private static String carpetaResultados = "resultados/ejercicio2/";
+	
+	// Apartado A
 
 	public static GraphPath<Atraccion, Vecindad> ejercicio2A(Graph<Atraccion, Vecindad> g, Atraccion vertexStart,
 			Atraccion vertexEnd, String fichero) {
@@ -34,6 +35,8 @@ public class Ejercicio2 {
 
 		return shortestPath;
 	}
+	
+	// Apartado B
 
 	public static GraphPath<Atraccion, Vecindad> ejercicio2B(Graph<Atraccion, Vecindad> g, String fichero) {
 

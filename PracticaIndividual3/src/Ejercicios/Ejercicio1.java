@@ -4,16 +4,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import us.lsi.graphs.GraphsReader;
 import us.lsi.colors.GraphColors;
 import us.lsi.colors.GraphColors.Color;
-import us.lsi.common.List2;
 import us.lsi.graphs.Graphs2;
 
 import org.jgrapht.Graph;
 import org.jgrapht.alg.connectivity.ConnectivityInspector;
 import org.jgrapht.alg.vertexcover.GreedyVCImpl;
-import org.jgrapht.graph.SimpleDirectedGraph;
 
 import Tipos.Relacion;
 import Tipos.Usuario;
@@ -21,7 +18,6 @@ import Tipos.Usuario;
 public class Ejercicio1 {
 
 	private static String carpetaResultados = "resultados/ejercicio1/";
-
 	// Apartado A
 
 	public static Set<Usuario> ejercicio1A(Graph<Usuario, Relacion> g, String fichero) {

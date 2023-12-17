@@ -1,6 +1,5 @@
 package Tipos;
 
-
 public record Atraccion(String nombre, Integer tiempo, Double popularidad, Integer duracion) {
 	
 	public static Atraccion of(String nombre, Integer tiempo, Double popularidad, Integer duracion) {
